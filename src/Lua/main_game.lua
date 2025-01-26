@@ -35,6 +35,9 @@ rawset(_G, "PTSR", { -- variables
 	pizzatime_tics = 0,
 	titlecard_time = 0,
 	
+	customPTType = nil,
+	useBFDImus = false,
+	
 	maxlaps = 5,
 
 	timeleft = 0,
@@ -307,6 +310,9 @@ addHook("NetVars", function(net)
 		"showtime",
 		"endsector",
 		
+		"customPTType",
+		"useBFDImus",
+		
 		"hudstuff",
 		
 		"maxrankpoints",
@@ -552,3 +558,27 @@ end, MT_PLAYER)
 rawset(_G, "GT_PIZZATIMEJISK", GT_PTSPICER)
 rawset(_G, "PTJE", PTSR)
 rawset(_G, "JISK_COUNT", PTSR_COUNT)
+
+-- shhh imagine i have somewhere to place this :) -pac
+addHook("MobjDeath", function(mo, inf, src)
+	if not PTSR.customPTType
+	or mo.type ~= PTSR.customPTType then return end
+	
+	local pmo
+	if (src and src.valid)
+	and (src.player and src.player.valid) then
+		pmo = src
+	elseif (inf and inf.valid)
+	and (inf.player and inf.player.valid) then
+		pmo = inf
+	end
+	
+	if not (pmo and pmo.valid) then
+		for p in players.iterate do -- get the first player it finds then :P
+			pmo = p.mo
+			break
+		end
+	end
+	
+	PTSR.PizzaTimeTrigger(pmo)
+end)

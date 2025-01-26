@@ -4,6 +4,13 @@ PTSR.MusicList = {
 		[2] = "DEAOLI",
 		[3] = "PIJORE",
 	},
+	BFDI = {
+		Laps = {
+			[1] = "BFDIES"
+		},
+		Overtime = "BFDIOV",
+		HurryUp = "BFDIHU"
+	},
 	Overtime = "OTMUSB", -- default
 	HurryUp = "OTMUSA", -- default
 }
@@ -97,6 +104,8 @@ addHook("ThinkFrame", function()
 	
 	local laps = consoleplayer.ptsr.laps
 	
+	local uList = PTSR.useBFDImus and PTSR.MusicList.BFDI or PTSR.MusicList -- hi guys, pac here
+	
 	if PTSR.pizzatime then
 		--PTSR.timeleft <= 56*TICRATE
 		if leveltime then -- srb2 is super slow tbh
@@ -104,7 +113,7 @@ addHook("ThinkFrame", function()
 				
 				local mus = CV_PTSR.overtime_music.value
 				
-				local mus_str = PTSR.MusicList.Overtime
+				local mus_str = uList.Overtime
 				local gm_metadata = PTSR.currentModeMetadata()
 				
 				if mus then
@@ -127,7 +136,7 @@ addHook("ThinkFrame", function()
 			and PTSR.client_allowhurryupmusic then -- Hurry up
 				local mus = CV_PTSR.overtime_music.value
 				
-				local mus_str = PTSR.MusicList.HurryUp
+				local mus_str = uList.HurryUp
 				
 				if S_MusicName() ~= mus_str then
 					S_ChangeMusic(mus_str, false, player)
@@ -140,8 +149,8 @@ addHook("ThinkFrame", function()
 			end
 		end
 	
-		if PTSR.MusicList.Laps[laps] and mapmusname ~= PTSR.MusicList.Laps[laps] then
-			local newmus = PTSR.MusicList.Laps[laps]
+		if uList.Laps[laps] and mapmusname ~= uList.Laps[laps] then
+			local newmus = uList.Laps[laps]
 			if S_MusicExists(newmus) then
 				S_ChangeMusic(newmus, true, player)
 				mapmusname = newmus

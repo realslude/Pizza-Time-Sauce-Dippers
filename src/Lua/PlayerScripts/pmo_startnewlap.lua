@@ -32,8 +32,9 @@ PTSR.StartNewLap = function(mobj)
 
 		if not CV_PTSR.nomusic.value then -- if music on
 			if not PTSR.IsOverTimeMusicInPriority() then
-				if PTSR.MusicList.Laps[player.ptsr.laps] and mapmusname ~= PTSR.MusicList.Laps[player.ptsr.laps] then
-					S_ChangeMusic(PTSR.MusicList.Laps[player.ptsr.laps], true, player)
+				local uList = PTSR.useBFDImus and PTSR.MusicList.BFDI or PTSR.MusicList -- hi guys, pac here
+				if uList.Laps[player.ptsr.laps] and mapmusname ~= uList.Laps[player.ptsr.laps] then
+					S_ChangeMusic(uList.Laps[player.ptsr.laps], true, player)
 				end
 			end
 		end

@@ -164,8 +164,9 @@ PTSR.PizzaTimeTrigger = function(mobj)
 		end
 		
 		if not PTSR.IsOverTimeMusicInPriority() then
-			if PTSR.MusicList.Laps[1] and mapmusname ~= PTSR.MusicList.Laps[1] then
-				S_ChangeMusic(PTSR.MusicList.Laps[1], true)
+			local uList = PTSR.useBFDImus and PTSR.MusicList.BFDI or PTSR.MusicList -- hi guys, pac here
+			if uList.Laps[1] and mapmusname ~= uList.Laps[1] then
+				S_ChangeMusic(uList.Laps[1], true)
 			end
 		end
 	end

@@ -3,12 +3,16 @@ freeslot("sfx_pizzah", "sfx_pizzao", "sfx_coneba", "sfx_pepdie", "sfx_lap2", "sf
 		 "sfx_prepr1", "sfx_prepr2", "sfx_prepr3", "MT_PT_PARRY", "S_PT_PARRY", "SPR_PRRY")
 freeslot("sfx_evlagh")
 
+-- wait until 2.2.15 so everyone can experience this one?
+--states[S_OLDK_DIE0].action = nil -- for final demo zone !!
+
 for i = 0, 2
 	sfxinfo[sfx_prepr1 + i].caption = "Boink"
 end
 
 sfxinfo[sfx_pizzah].caption = "Pizzaface laughs"
 sfxinfo[sfx_coneba].caption = "Coneball laughs"
+sfxinfo[freeslot("sfx_evllfy")].caption = "Teleport"
 sfxinfo[sfx_pepdie].caption = "Death"
 sfxinfo[sfx_lap2].caption = "New lap!"
 
@@ -17,6 +21,7 @@ rawset(_G, "FUNC_PTSR", {}) -- functions
 freeslot("MT_PIZZAMASK", "S_PIZZAFACE", "S_CONEBALL", "S_PF_EGGMAN", "S_SUMMADAT_PF", "SPR_PZAT", "SPR_CONB", "SPR_SMAD", "sfx_smdah", "S_GOOCH_PF", "SPR_PZAD")
 freeslot("sfx_nrmlfc","S_NORMALFACE_PF","SPR_NMFC")
 freeslot("S_KIMIZZA_PF", "SPR_KMZA")
+freeslot("S_EVILLEAFY_PF", "SPR_EVLF")
 
 mobjinfo[MT_PIZZAMASK] = {
 	doomednum = -1,
@@ -83,6 +88,13 @@ states[S_GOOCH_PF] = {
     var1 = R,
     var2 = 3,
     nextstate = S_GOOCH_PF
+}
+
+states[S_EVILLEAFY_PF] = {
+	sprite = SPR_EVLF,
+	frame = A,
+	tics = -1,
+	nextstate = S_EVILLEAFY_PF
 }
 
 --this is UGLY.

@@ -1,0 +1,20 @@
+Lump BFDIES
+Title = Movement_Proposition
+Authors = Kevin_Macleod
+Soundtestpage = 1
+Soundtestcond = 0
+BPM = 126
+
+Lump BFDIOV
+Title = Hitman
+Authors = Kevin_Macleod
+Soundtestpage = 1
+Soundtestcond = 0
+BPM = 76
+
+Lump BFDIHU
+Title = Local_Forecast
+Authors = Kevin_Macleod
+Soundtestpage = 1
+Soundtestcond = 0
+BPM = 93

@@ -64,6 +64,17 @@ PTSR.PFMaskData = {
 		tagcolor = SKINCOLOR_RED,
 		momentum = true,
 		aiselectable = true
+	},
+	{
+		name = "Evil Leafy",
+		state = S_EVILLEAFY_PF,
+		scale = FU/2,
+		trails = {SKINCOLOR_RED, SKINCOLOR_RED}, -- here so it doesn't end up erroring, shouldn't happen with evil leafy though :P
+		sound = sfx_evllfy,
+		emoji = ":leaf:",
+		aiselectable = true,
+		tagcolor = SKINCOLOR_RED,
+		bfdichar = true
 	}
 }
 
@@ -223,6 +234,9 @@ function PTSR:SpawnPFAI(forcestyle)
 			end
 		end
 	end
+	
+	--style = 6 -- Testing!!
+	PTSR.useBFDImus = PTSR.PFMaskData[style].bfdichar and true or false
 	
 	if not PTSR.PFMaskData[style] or not multiplayer then
 		style = 1

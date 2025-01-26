@@ -62,6 +62,33 @@ local function InitMap()
 	end
 end
 
+local function changemapFunc(id)
+	InitMap()
+	
+	PTSR.customPTType = nil
+	if mapheaderinfo[id].ptsd_pttype then
+		local ptType = mapheaderinfo[id].ptsd_pttype
+		if tonumber(ptType) ~= nil
+			local num = tonumber(ptType)
+			if mobjinfo[num] then
+				PTSR.customPTType = num
+			end
+		elseif ptType:sub(1, 3) == "MT_"
+		and constants[ptType] ~= nil then
+			PTSR.customPTType = constants[ptType]
+		end
+	end
+end
+
+local function endPos(map)
+	local sec = R_PointInSubsector(map.x*FU, map.y*FU).sector
+	
+	PTSR.end_location.x = map.x*FU
+	PTSR.end_location.y = map.y*FU
+	PTSR.end_location.z = sec.floorheight+map.z*FU
+	PTSR.end_location.angle = map.angle*ANG1
+end
+
 local function InitMap2()
     if not PTSR.IsPTSR() then return end
 	PTSR.john = nil
@@ -72,30 +99,36 @@ local function InitMap2()
 
             PTSR.spawn_location.x = map.x*FU
             PTSR.spawn_location.y = map.y*FU
-            PTSR.spawn_location.z = sec.floorheight
+            PTSR.spawn_location.z = sec.floorheight+map.z*FU
             PTSR.spawn_location.angle = map.angle*ANG1
         end
 		
-        if map.type == 501 then
-			local sec = R_PointInSubsector(map.x*FU, map.y*FU).sector
-
-            PTSR.end_location.x = map.x*FU
-            PTSR.end_location.y = map.y*FU
-            PTSR.end_location.z = sec.floorheight
- 
-            PTSR.end_location.angle = map.angle*ANG1
-			local john = P_SpawnMobj(
-				PTSR.end_location.x, 
-				PTSR.end_location.y, 
-				PTSR.end_location.z,
-				MT_PILLARJOHN
-			)
-			john.angle = map.angle*ANG1
-			if map.options & MTF_OBJECTFLIP then
-				john.flags2 = $ | MF2_OBJECTFLIP
+		if PTSR.customPTType ~= nil then
+			if map.type == mobjinfo[PTSR.customPTType].doomednum then
+				endPos(map)
 			end
-			PTSR.john = john
-        end
+		else
+			local johnThing = tonumber(mapheaderinfo[gamemap].ptsd_johnthing) or 501
+			if map.type == johnThing then
+				endPos(map)
+				
+				local john = P_SpawnMobj(
+					PTSR.end_location.x, 
+					PTSR.end_location.y, 
+					PTSR.end_location.z,
+					MT_PILLARJOHN
+				)
+				john.angle = map.angle*ANG1
+				if map.options & MTF_OBJECTFLIP then
+					john.flags2 = $ | MF2_OBJECTFLIP
+				end
+				PTSR.john = john
+				
+				if (map.mobj and map.mobj.valid) then
+					P_RemoveMobj(map.mobj)
+				end
+			end
+		end
     end
 	-- dont use the playercount function since it will iterate through all players twice
 	-- so make a non functioned playercount
@@ -131,7 +164,7 @@ local function InitMap3()
 	end
 end
 
-addHook("MapChange", InitMap)
+addHook("MapChange", changemapFunc)
 addHook("MapLoad", InitMap)
 addHook("MapLoad", InitMap2)
 addHook("MapLoad", InitMap3)
