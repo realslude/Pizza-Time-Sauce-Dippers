@@ -43,6 +43,55 @@ rawset(_G, "G_TicsToMTIME", function(tics, hascents)
 	end
 end)
 
+-- evil leafy oooooo
+-- probably stupid but ehh
+local tpchaseList = {
+	{-1, 0},
+	{1, 0},
+	{0, -1},
+	{0, 1},
+	-- diagonals !!
+	{-1, -1},
+	{-1, 1},
+	{1, -1},
+	{1, 1}
+}
+local tpchaseZThing = {0, 128*FU}
+
+rawset(_G, "P_TPChase", function(mo, tpx, tpy, tpz, speed)
+	if not (mo and mo.valid) then return end
+	
+	/*local posList = {
+		{mo.x-speed, mo.y},
+		{mo.x+speed, mo.y},
+		{mo.x, mo.y-speed},
+		{mo.x, mo.y+speed}
+	}*/
+	
+	local closestDist = {x = mo.x, y = mo.y}
+	for key, math in ipairs(tpchaseList) do
+		local oldpos = {x = mo.x, y = mo.y, z = mo.z}
+		local cur = {mo.x+speed*math[1], mo.y+speed*math[2]}
+		
+		mo.z = min(max($+128*FU*P_MobjFlip(mo), mo.floorz), mo.ceilingz-mo.height)
+		if not P_TryMove(mo, cur[1], cur[2], true) then continue end
+		P_SetOrigin(mo, oldpos.x, oldpos.y, oldpos.z)
+		
+		local closeDist = R_PointToDist2(closestDist.x, closestDist.y, tpx, tpy)
+		local dist = R_PointToDist2(cur[1], cur[2], tpx, tpy)
+		if dist < closeDist then
+			closestDist.x = cur[1]
+			closestDist.y = cur[2]
+		end
+	end
+	
+	if closestDist == {x = mo.x, y = mo.y} then return end
+	
+	P_MoveOrigin(mo, closestDist.x, closestDist.y, mo.z)
+	mo.z = (mo.eflags & MFE_VERTICALFLIP) and mo.ceilingz or mo.floorz
+	return true
+end)
+
 --this is really simple, no other way to make this
 rawset(_G, "P_FlyTo", function(mo, fx, fy, fz, sped, addques)
     if mo.valid

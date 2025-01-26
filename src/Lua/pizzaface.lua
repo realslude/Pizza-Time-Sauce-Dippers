@@ -69,12 +69,12 @@ PTSR.PFMaskData = {
 		name = "Evil Leafy",
 		state = S_EVILLEAFY_PF,
 		scale = FU/2,
-		trails = {SKINCOLOR_RED, SKINCOLOR_RED}, -- here so it doesn't end up erroring, shouldn't happen with evil leafy though :P
+		--trails = {SKINCOLOR_RED, SKINCOLOR_RED},
 		sound = sfx_evllfy,
 		emoji = ":leaf:",
-		aiselectable = true,
 		tagcolor = SKINCOLOR_RED,
-		bfdichar = true
+		bfdichar = true,
+		tpmove = true
 	}
 }
 
@@ -235,7 +235,9 @@ function PTSR:SpawnPFAI(forcestyle)
 		end
 	end
 	
-	--style = 6 -- Testing!!
+	if PTSR.gamemode == PTSR.gm_evilleafy then
+		style = 6
+	end
 	PTSR.useBFDImus = PTSR.PFMaskData[style].bfdichar and true or false
 	
 	if not PTSR.PFMaskData[style] or not multiplayer then
@@ -535,6 +537,20 @@ addHook("MobjThinker", function(mobj)
             mobj.momy = $ + FixedMul(FixedDiv(tmomy - mobj.momy, flyto2), sped2)
             mobj.momz = $ + FixedMul(FixedDiv(tmomz - mobj.momz, flyto2), sped2)
 			L_SpeedCap(mobj, sped)
+		elseif maskdata.tpmove then
+			if mobj.flags == mobj.info.flags then
+				mobj.flags = MF_SPECIAL|MF_BOSS
+			end
+			
+			speed = $*10
+			if not (leveltime%TICRATE) then
+				if dist < speed then
+					P_MoveOrigin(mobj, tx, ty, tz)
+				else
+					P_TPChase(mobj, tx, ty, tz, speed)
+					S_StartSound(mobj, maskdata.sound)
+				end
+			end
 		else
 			--WAAITTTTTTTTT!!!!!!!! If we're already really close to our target, don't move at all!
 			if dist < speed
@@ -545,7 +561,8 @@ addHook("MobjThinker", function(mobj)
 		
 		mobj.angle = R_PointToAngle2(mobj.x, mobj.y, tx, ty)
 
-		if not (leveltime % 6) then
+		if not (leveltime % 6)
+		and maskdata.trails then
 			local colors = maskdata.trails
 			local ghost = P_SpawnGhostMobj(mobj)
 			P_SetOrigin(ghost, mobj.x, mobj.y, mobj.z)

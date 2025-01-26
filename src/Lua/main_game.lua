@@ -277,6 +277,11 @@ PTSR.gm_playerpf = PTSR.RegisterGamemode("Player PF", {
 	player_pizzaface = true
 })
 
+PTSR.gm_evilleafy = PTSR.RegisterGamemode("Evil Leafy", {
+	parry_friendlyfire = false,
+	allowrevive = true
+})
+
 PTSR.ChangeGamemode = function(gm)
 	local newgamemode = gm or 1
 	local gm_metadata = PTSR.gamemode_list[gm]
@@ -561,8 +566,8 @@ rawset(_G, "JISK_COUNT", PTSR_COUNT)
 
 -- shhh imagine i have somewhere to place this :) -pac
 addHook("MobjDeath", function(mo, inf, src)
-	if not PTSR.customPTType
-	or mo.type ~= PTSR.customPTType then return end
+	/*if not PTSR.customPTType
+	or mo.type ~= PTSR.customPTType then return end*/
 	
 	local pmo
 	if (src and src.valid)
@@ -581,4 +586,4 @@ addHook("MobjDeath", function(mo, inf, src)
 	end
 	
 	PTSR.PizzaTimeTrigger(pmo)
-end)
+end, MT_OLDK)
