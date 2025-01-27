@@ -333,16 +333,19 @@ Lua.ptsr_lapangle = 270
 Lua.ptsr_s_rank_points = 22000
 
 Level 33
-levelname = Techno Legacy
-Keywords = TLZ
-subtitle = Original Techno Hill 2 Design
+levelname = Final Demo
+Keywords = FDZ
+subtitle = The Original Final Demo Levels
 act = 0
-music = THZALT
+music = FDEMO1
 typeoflevel = Singleplayer,Co-op,Competition,Race,PTSR
 nextlevel = 1100
 RecordAttack = true
-Unlockable = 0
-skynum = 1
+Unlockable = 27
+skynum = 2
+NoReload = 1
+WideIcon = 1
+FlickyList = Demo
 LevelSelect = 2
 SelectHeading = Bonus Stages
 weather = 0
@@ -354,7 +357,7 @@ Lua.ptsr_portal(1)_y = 5358
 Lua.ptsr_portal(1)_z = 1280
 Lua.ptsr_portal(1)_angle = 182
 Lua.ptsr_lapangle = 270
-Lua.ptsr_timelimit = 2
+Lua.ptsr_timelimit = 3
 Lua.ptsr_pizzatime_triggertag = 113
 Lua.ptsr_s_rank_points = 18000
 
@@ -364,7 +367,7 @@ Level 41
 Levelname = Aerial Garden
 Keywords = AGZ
 Music = AGZ
-TypeOfLevel = Singleplayer,Co-op,Competition,Race
+TypeOfLevel = Singleplayer,Co-op,Competition,Race,PTSR
 NextLevel = 42
 SkyNum = 40
 RecordAttack = true
@@ -373,6 +376,8 @@ LevelSelect = 2
 SelectHeading = Challenge Stages
 SaveGame = true
 FlickyList = Puffin,Dove
-Lua.ptsr_hidden = true
+Lua.Takis_UsesHeartCards = true
+Lua.Takis_MaxHeartCards = 6
+Weather = 0
 #Flicky selection is final.
 
