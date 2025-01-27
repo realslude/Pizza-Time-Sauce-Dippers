@@ -56,36 +56,72 @@ local tpchaseList = {
 	{1, -1},
 	{1, 1}
 }
-local tpchaseZThing = {0, 128*FU}
+
+local function manhatDist(x, y, destx, desty)
+	return abs(x-destx) + abs(y-desty)
+end
 
 rawset(_G, "P_TPChase", function(mo, tpx, tpy, tpz, speed)
 	if not (mo and mo.valid) then return end
+	
+	if mo.chaseprevPos == nil
+		mo.chaseprevPos = {}
+	end
+	table.insert(mo.chaseprevPos, 1, {mo.x, mo.y})--{x = mo.x, y = mo.y, z = mo.z))
+	while mo.chaseprevPos[5] do
+		table.remove(mo.chaseprevPos, 5)
+	end
+	local prevPos = mo.chaseprevPos
 	
 	/*local posList = {
 		{mo.x-speed, mo.y},
 		{mo.x+speed, mo.y},
 		{mo.x, mo.y-speed},
-		{mo.x, mo.y+speed}
+		{mo.x, mo.y+speed},
+		-- diagonals !!
+		{mo.x-speed, mo.y-speed},
+		{mo.x-speed, mo.y+speed},
+		{mo.x+speed, mo.y-speed},
+		{mo.x+speed, mo.y+speed}
 	}*/
 	
-	local closestDist = {x = mo.x, y = mo.y}
+	local closestDist = {x = mo.x, y = mo.y, dist = manhatDist(mo.x, mo.y, tpx, tpy), key = -1}
 	for key, math in ipairs(tpchaseList) do
 		local oldpos = {x = mo.x, y = mo.y, z = mo.z}
 		local cur = {mo.x+speed*math[1], mo.y+speed*math[2]}
 		
+		if #prevPos then
+			local shouldContinue = false
+			for _, lastPos in ipairs(prevPos) do
+				if lastPos[1] == cur[1]
+				and lastPos[2] == cur[2] then
+					shouldContinue = true
+					break
+				end
+			end
+			
+			if shouldContinue then continue end
+		end
+		
 		mo.z = min(max($+128*FU*P_MobjFlip(mo), mo.floorz), mo.ceilingz-mo.height)
-		if not P_TryMove(mo, cur[1], cur[2], true) then continue end
+		
+		if not P_TryMove(mo, cur[1], cur[2], true) then
+			mo.z = oldpos.z
+			continue
+		end
 		P_SetOrigin(mo, oldpos.x, oldpos.y, oldpos.z)
 		
-		local closeDist = R_PointToDist2(closestDist.x, closestDist.y, tpx, tpy)
-		local dist = R_PointToDist2(cur[1], cur[2], tpx, tpy)
-		if dist < closeDist then
+		--local dist = R_PointToDist2(cur[1], cur[2], tpx, tpy)
+		local dist = manhatDist(cur[1], cur[2], tpx, tpy)
+		if dist < closestDist.dist then
 			closestDist.x = cur[1]
 			closestDist.y = cur[2]
+			closestDist.dist = dist
+			closestDist.key = key
 		end
 	end
 	
-	if closestDist == {x = mo.x, y = mo.y} then return end
+	if closestDist.key == -1 then return end
 	
 	P_MoveOrigin(mo, closestDist.x, closestDist.y, mo.z)
 	mo.z = (mo.eflags & MFE_VERTICALFLIP) and mo.ceilingz or mo.floorz
