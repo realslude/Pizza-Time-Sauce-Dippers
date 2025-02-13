@@ -18,7 +18,7 @@ Go to your SRB2 Addons folder.
 
 Clone the repo.
 
-```git clone https://github.com/realslude/Pizza-Time-Sauce-Dippers```
+```git clone https://github.com/Jiskster/PizzaTimeSpiceRunners```
 
 Run...
 
