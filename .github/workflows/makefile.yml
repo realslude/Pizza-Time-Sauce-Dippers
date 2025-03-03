@@ -27,7 +27,7 @@ jobs:
     - name: do the thing pls
       run: |
         mkdir build
-        node PaK3/main.js src/ build/CL_SRB5b-${{ env.NOW }}.pk3
+        node PaK3/main.js src/ build/SL_PTSD-${{ env.NOW }}.pk3
     
     - name: send thing to the action tab
       uses: actions/upload-artifact@v4
