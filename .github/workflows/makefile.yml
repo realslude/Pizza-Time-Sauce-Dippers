@@ -32,7 +32,7 @@ jobs:
     - name: send thing to the action tab
       uses: actions/upload-artifact@v4
       with:
-        name: srb5b
+        name: ptsd
         path: build/SL_PTSD-${{ env.NOW }}.pk3
 
     - name: could you preetty please send the file to the discord
