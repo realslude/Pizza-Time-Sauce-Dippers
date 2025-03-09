@@ -277,7 +277,7 @@ PTSR.gm_playerpf = PTSR.RegisterGamemode("Player PF", {
 	player_pizzaface = true
 })
 
-PTSR.gm_evilleafy = PTSR.RegisterGamemode("Evil Leafy", {
+PTSR.gm_bfdi = PTSR.RegisterGamemode("Battle for Dream Island", {
 	parry_friendlyfire = false,
 	allowrevive = true
 })

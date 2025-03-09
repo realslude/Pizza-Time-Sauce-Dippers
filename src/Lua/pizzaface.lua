@@ -235,7 +235,7 @@ function PTSR:SpawnPFAI(forcestyle)
 		end
 	end
 	
-	if PTSR.gamemode == PTSR.gm_evilleafy then
+	if PTSR.gamemode == PTSR.gm_bfdi then
 		style = 6
 	end
 	PTSR.useBFDImus = PTSR.PFMaskData[style].bfdichar and true or false
