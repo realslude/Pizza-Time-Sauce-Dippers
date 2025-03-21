@@ -237,6 +237,27 @@ PTSR.currentModeMetadata = function()
 	return PTSR.gamemode_list[PTSR.gamemode]
 end
 
+local patchList = {}
+function PTSR.getPatch(v, name)
+	local metadata = PTSR.currentModeMetadata()
+	local hires = FU
+	if metadata.gfx_prefix ~= nil then
+		if v.patchExists(metadata.gfx_prefix+name) then
+			name = metadata.gfx_prefix+$
+			
+			if metadata.gfx_highres
+			and tonumber(metadata.gfx_highres) then
+				hires = tonumber(metadata.gfx_highres)
+			end
+		end
+	end
+	
+	if not (patchList[name] and patchList[name].valid) then
+		patchList[name] = v.cachePatch(name)
+	end
+	return patchList[name], hires
+end
+
 PTSR.gm_endurance = PTSR.RegisterGamemode("Endurance", {
 	core_endurance = true,
 	parry_friendlyfire = false,
@@ -279,7 +300,9 @@ PTSR.gm_playerpf = PTSR.RegisterGamemode("Player PF", {
 
 PTSR.gm_bfdi = PTSR.RegisterGamemode("Battle for Dream Island", {
 	parry_friendlyfire = false,
-	allowrevive = true
+	allowrevive = true,
+	gfx_prefix = "BFDI_",
+	gfx_highres = tofixed("0.65")
 })
 
 PTSR.ChangeGamemode = function(gm)

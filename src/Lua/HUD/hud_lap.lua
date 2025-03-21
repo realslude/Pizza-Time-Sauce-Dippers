@@ -28,7 +28,7 @@ local lap_hud = function(v, player)
 
 	if not player == consoleplayer then return end
 	
-	local lap2flag = v.cachePatch("LAP2FLAG")
+	local lapflag, flagscale = PTSR.getPatch(v, "LAPFLAG")
 	local hudst = player.hudstuff
 	
 	local shakex = v.RandomRange(-FU/2,FU/2)
@@ -60,7 +60,7 @@ local lap_hud = function(v, player)
 			end
 		end
 		
-		v.drawScaled(cz.x, cz.y, FU/3, v.cachePatch"LAPFLAG", V_SNAPTOTOP, color)
+		v.drawScaled(cz.x, cz.y, flagscale/3, lapflag, V_SNAPTOTOP, color)
 		local patches = getPatchesFromNum(v, "PTLAP", player.ptsr.laps)
 
 		local fx = 0

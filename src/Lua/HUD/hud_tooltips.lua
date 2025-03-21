@@ -68,28 +68,28 @@ local tooltips_hud = function(v, player)
 		
 		local lapflag_name = "PTSR_LAPFLAG"
 		lapflag_name = $ .. "_A" .. tostring((leveltime/2)%12)
-		local lapflag_patch = v.cachePatch(lapflag_name)
+		local lapflag_patch, lapflag_scale = PTSR.getPatch(v, lapflag_name)
 		local lapflag_patch_x = 148*FU
 		local lapflag_text_x = lapflag_patch_x + 17*FU
 		
 		-- Lap Count Flag Graphic
-		v.drawScaled(lapflag_patch_x, ese-(FU*12), FU/2, lapflag_patch, V_PERPLAYER|V_SNAPTOBOTTOM)
+		v.drawScaled(lapflag_patch_x, ese-(FU*12), lapflag_scale/2, lapflag_patch, V_PERPLAYER|V_SNAPTOBOTTOM)
 		
 		if gm_metadata.core_endurance then
 			-- Difficulty
 			local difficulty_name = "PTSR_DIFF_FIRE"
 			difficulty_name = $ .. "A" .. tostring((leveltime/2)%14)
-			local difficulty_patch = v.cachePatch(difficulty_name)
+			local difficulty_patch, difficulty_scale = PTSR.getPatch(v, difficulty_name)
 			local difficulty_string = string.format("%.2f", PTSR.difficulty)
-			v.drawScaled(lapflag_patch_x+(40*FU), ese-(FU*14), FU/2, difficulty_patch, V_PERPLAYER|V_SNAPTOBOTTOM)
+			v.drawScaled(lapflag_patch_x+(40*FU), ese-(FU*14), difficulty_scale/2, difficulty_patch, V_PERPLAYER|V_SNAPTOBOTTOM)
 			customhud.CustomFontString(v, lapflag_text_x+(40*FU), ese-(FU*6), difficulty_string, "PTFNT", V_PERPLAYER|V_SNAPTOBOTTOM, "center", FU/3, SKINCOLOR_PURPLE)
 			
 			-- Pizzaface Speed
 			local pfspeed_name = "PTSR_PFSHOE"
 			pfspeed_name = $ .. "_A_" .. tostring((leveltime/2)%16)
-			local pfspeed_patch = v.cachePatch(pfspeed_name)
+			local pfspeed_patch, pfspeed_scale = PTSR.getPatch(v, pfspeed_name)
 			local pfspeed_string = string.format("%.2fX", PTSR.pizzaface_speed_multi)
-			v.drawScaled(lapflag_patch_x-(40*FU), ese-(FU*14), FU/2, pfspeed_patch, V_PERPLAYER|V_SNAPTOBOTTOM)
+			v.drawScaled(lapflag_patch_x-(40*FU), ese-(FU*14), pfspeed_scale/2, pfspeed_patch, V_PERPLAYER|V_SNAPTOBOTTOM)
 			customhud.CustomFontString(v, lapflag_text_x-(40*FU), ese-(FU*4), pfspeed_string, "PTFNT", V_PERPLAYER|V_SNAPTOBOTTOM, "center", FU/3, SKINCOLOR_SANGRIA)
 		end
 		

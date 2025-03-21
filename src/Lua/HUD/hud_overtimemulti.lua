@@ -1,8 +1,8 @@
 local function barfill(v, x, y, scale, progress, flags)
-	local bar = v.cachePatch("HEATMET"..(leveltime/2) % 12)
+	local bar, barscale = PTSR.getPatch(v, "HEATMET"..(leveltime/2) % 12)
 
 	local trueprog = 0
-	local fill = v.cachePatch("HEATMETF"..(leveltime/2) % 12)
+	local fill, fillscale = PTSR.getPatch(v, "HEATMETF"..(leveltime/2) % 12)
 	local ox = x+(2*FU)
 	local oy = y+(4*FU)
 
@@ -12,7 +12,7 @@ local function barfill(v, x, y, scale, progress, flags)
 			trueprog = $+(fill.width*FU)
 		else
 			v.drawCropped(ox+FixedMul(trueprog, scale), oy,
-				scale, scale,
+				FixedMul(scale, fillscale), FixedMul(scale, fillscale),
 				fill,
 				flags or 0,
 				nil,
@@ -24,7 +24,7 @@ local function barfill(v, x, y, scale, progress, flags)
 		end
 	end
 
-	v.drawScaled(x, y, scale, bar, flags)
+	v.drawScaled(x, y, FixedMul(scale, barscale), bar, flags)
 end
 
 local overtimemulti_hud = function(v, player)

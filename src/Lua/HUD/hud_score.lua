@@ -209,15 +209,17 @@ local score_hud = function(v, player)
 	end
 
 	-- Draw Pizza Hud.
-	v.drawScaled(xPizzaPos+xShake, yPizzaPos+yShake, FU/3, v.cachePatch("SCOREOFPIZZA"..frame), (V_SNAPTOLEFT|V_SNAPTOTOP))
+	local pizzapatch, pizzascale = PTSR.getPatch(v, "SCOREOFPIZZA"..frame)
+	v.drawScaled(xPizzaPos+xShake, yPizzaPos+yShake, pizzascale/3, pizzapatch, (V_SNAPTOLEFT|V_SNAPTOTOP))
 
 	
 	local rankNum = ranksTable[player.ptsr.rank]
 	-- Draw toppings on Pizza Hud.
 	for i = 1,rankNum do
 		if not (toppingsOnScore[i]) then continue end
-
-		v.drawScaled(xPizzaPos+xShake, yPizzaPos+yShake, FU/3, v.cachePatch(toppingsOnScore[i]..frame), V_SNAPTOLEFT|V_SNAPTOTOP)
+		
+		local toppingpatch, toppingscale = PTSR.getPatch(v, toppingsOnScore[i]..frame)
+		v.drawScaled(xPizzaPos+xShake, yPizzaPos+yShake, toppingscale/3, toppingpatch, V_SNAPTOLEFT|V_SNAPTOTOP)
 	end
 
 	-- For bobbing up and down.

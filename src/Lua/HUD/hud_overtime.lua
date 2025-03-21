@@ -3,8 +3,8 @@ local overtime_hud = function(v, player)
 	local left_tween 
 	local right_tween 
 	
-	local text_its = v.cachePatch("OT_ITS")
-	local text_overtime = v.cachePatch("OT_OVERTIME")
+	local text_its, itsscale = PTSR.getPatch(v, "OT_ITS")
+	local text_overtime, overtimescale = PTSR.getPatch(v, "OT_OVERTIME")
 	
 	local anim_len = 7*TICRATE/4 -- 1.75 secs
 	local anim_delay = 2*TICRATE
@@ -33,14 +33,14 @@ local overtime_hud = function(v, player)
 		v.drawScaled(
 			(left_tween+shakex_1)*FU,
 			(80+shakey_1)*FU,
-			FU/2,
+			itsscale/2,
 			text_its
 		)
 		
 		v.drawScaled(
 			(right_tween+shakex_2)*FU,
 			(80+shakey_2)*FU,
-			FU/2,
+			overtimescale/2,
 			text_overtime
 		)
 		

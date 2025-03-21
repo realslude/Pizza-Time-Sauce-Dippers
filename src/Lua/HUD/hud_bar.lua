@@ -27,8 +27,8 @@ end*/
 local function drawBar(v, x, y, scale, properties)
 	local prog = properties and properties.offset or 0
 	local length = properties and properties.length or 0
-	local bar = v.cachePatch(properties and properties.bar or "SHOWTIMEBAR")
-	local fill = v.cachePatch(properties and properties.fill or "BARFILL")
+	local bar, barscale = PTSR.getPatch(v, properties and properties.bar or "SHOWTIMEBAR")
+	local fill, fillscale = PTSR.getPatch(v, properties and properties.fill or "BARFILL")
 	local ox = properties and properties.fill_xoffset or 0
 	local oy = properties and properties.fill_yoffset or 0
 	local ow = properties and properties.fill_widthoffset or 0
@@ -48,7 +48,7 @@ local function drawBar(v, x, y, scale, properties)
 			if prog < 0 then
 				v.drawCropped(
 					x+ox, y+oy,
-					scale, scale,
+					FixedMul(fillscale, scale), FixedMul(fillscale, scale),
 					fill,
 					flags,
 					color,
@@ -59,7 +59,7 @@ local function drawBar(v, x, y, scale, properties)
 			else
 				v.drawScaled(x+FixedMul(prog, scale)+ox,
 					y+oy,
-					scale,
+					FixedMul(fillscale, scale),
 					fill,
 					flags,
 					color)
@@ -69,7 +69,7 @@ local function drawBar(v, x, y, scale, properties)
 			if prog > 0 then
 				v.drawCropped(
 					x+FixedMul(prog, scale)+ox, y+oy,
-					scale, scale,
+					FixedMul(fillscale, scale), FixedMul(fillscale, scale),
 					fill,
 					flags,
 					color,
@@ -80,7 +80,7 @@ local function drawBar(v, x, y, scale, properties)
 			else
 				v.drawCropped(
 					x+ox, y+oy,
-					scale, scale,
+					FixedMul(fillscale, scale), FixedMul(fillscale, scale),
 					fill,
 					flags,
 					color,
@@ -92,7 +92,7 @@ local function drawBar(v, x, y, scale, properties)
 			prog = length
 		end
 	end
-	v.drawScaled(x,y,scale,bar,flags)
+	v.drawScaled(x,y,FixedMul(barscale, scale),bar,flags)
 end
 
 -- always give scale or die
@@ -178,15 +178,17 @@ local bar_hud = function(v, player)
 		pfEase = (pfEase*pfEase) * FU / 22
 		if not multiplayer then pfEase = 0 end
 
-		local bar = v.cachePatch("SHOWTIMEBAR") -- the orange border
-		local bar2 = v.cachePatch("SHOWTIMEBAR2") -- the purple thing
+		--local bar = PTSR.getPatch(v, "SHOWTIMEBAR") -- the orange border
+		--local bar2 = PTSR.getPatch(v, "SHOWTIMEBAR2") -- the purple thing whats this used for???
 		
 		--1/PTSR.timeleft
 		--PTSR.timeleft
 
-		local pizzaface = v.cachePatch('PIZZAFACE_SLEEPING1')
+		local pizzaface
 		if animationtable['pizzaface'] // dont wanna risk anything yknow
 			pizzaface = v.cachePatch(animationtable['pizzaface'].display_name)
+		else
+			pizzaface = v.cachePatch('PIZZAFACE_SLEEPING1')
 		end
 		
 		local john

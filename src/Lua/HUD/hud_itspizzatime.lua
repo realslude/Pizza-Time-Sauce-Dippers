@@ -8,20 +8,20 @@ local itspizzatime_hud = function(v, player)
 		*/
 	end
 	if PTSR.pizzatime and PTSR.pizzatime_tics and PTSR.pizzatime_tics < 10*TICRATE then
-		local patch = v.cachePatch("ITSPIZZATIME1")
+		local patch, patchscale = PTSR.getPatch(v, "ITSPIZZATIME1")
 		if CV_PTSR.homework.value then
-			patch = v.cachePatch("ITSHWTIME1")
+			patch, patchscale = PTSR.getPatch(v, "ITSHWTIME1")
 		end
 		if leveltime % 3 then
-			patch = v.cachePatch("ITSPIZZATIME2")
+			patch, patchscale = PTSR.getPatch(v, "ITSPIZZATIME2")
 			if CV_PTSR.homework.value then
-				patch = v.cachePatch("ITSHWTIME2")
+				patch, patchscale = PTSR.getPatch(v, "ITSHWTIME2")
 			end
 		end
 		if CV_PTSR.homework.value then
-			v.drawScaled(0, (250*FU) - (PTSR.pizzatime_tics*FU)*3, (FU/3)*3/2, patch)
+			v.drawScaled(0, (250*FU) - (PTSR.pizzatime_tics*FU)*3, (patchscale/3)*3/2, patch)
 		else
-			v.drawScaled(100*FRACUNIT, (250*FU) - (PTSR.pizzatime_tics*FU)*3, (FU/3)*3/2, patch)
+			v.drawScaled(100*FRACUNIT, (250*FU) - (PTSR.pizzatime_tics*FU)*3, (patchscale/3)*3/2, patch)
 		end
 	end
 end
