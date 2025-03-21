@@ -542,9 +542,12 @@ addHook("MobjThinker", function(mobj)
 				mobj.flags = MF_SPECIAL|MF_BOSS
 			end
 			
+			local elDist = dist+R_PointToAngle2(0, mobj.pizza_target.z, 0, mobj.z)
+			
 			speed = $*10
-			if not (leveltime%TICRATE) then
-				if dist < speed then
+			local elTime = TICRATE-TICRATE/4 -- time
+			if not (leveltime%elTime) then
+				if elDist < speed then
 					P_MoveOrigin(mobj, tx, ty, tz)
 				else
 					P_TPChase(mobj, tx, ty, tz, speed)
