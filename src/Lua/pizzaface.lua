@@ -542,17 +542,16 @@ addHook("MobjThinker", function(mobj)
 				mobj.flags = MF_SPECIAL|MF_BOSS
 			end
 			
-			local elDist = dist+R_PointToAngle2(0, mobj.pizza_target.z, 0, mobj.z)
-			
 			speed = $*10
 			local elTime = TICRATE-TICRATE/4 -- time
 			if not (leveltime%elTime) then
-				if elDist < speed then
-					P_MoveOrigin(mobj, tx, ty, tz)
-				else
-					P_TPChase(mobj, tx, ty, tz, speed)
-					S_StartSound(mobj, maskdata.sound)
-				end
+				P_TPChase(mobj, tx, ty, min(speed, dist))
+				S_StartSound(mobj, maskdata.sound)
+			end
+			
+			if mobj.z > mobj.floorz
+			and mobj.z+mobj.height < mobj.ceilingz then
+				mobj.z = (mobj.eflags & MFE_VERTICALFLIP) and mobj.ceilingz or mobj.floorz
 			end
 		else
 			--WAAITTTTTTTTT!!!!!!!! If we're already really close to our target, don't move at all!

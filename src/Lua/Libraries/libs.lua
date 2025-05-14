@@ -61,7 +61,7 @@ local function manhatDist(x, y, destx, desty)
 	return abs(x-destx) + abs(y-desty)
 end
 
-rawset(_G, "P_TPChase", function(mo, tpx, tpy, tpz, speed)
+rawset(_G, "P_TPChase", function(mo, tpx, tpy, speed)
 	if not (mo and mo.valid) then return end
 	
 	if mo.chaseprevPos == nil
@@ -72,18 +72,6 @@ rawset(_G, "P_TPChase", function(mo, tpx, tpy, tpz, speed)
 		table.remove(mo.chaseprevPos, 5)
 	end
 	local prevPos = mo.chaseprevPos
-	
-	/*local posList = {
-		{mo.x-speed, mo.y},
-		{mo.x+speed, mo.y},
-		{mo.x, mo.y-speed},
-		{mo.x, mo.y+speed},
-		-- diagonals !!
-		{mo.x-speed, mo.y-speed},
-		{mo.x-speed, mo.y+speed},
-		{mo.x+speed, mo.y-speed},
-		{mo.x+speed, mo.y+speed}
-	}*/
 	
 	local closestDist = {x = mo.x, y = mo.y, dist = manhatDist(mo.x, mo.y, tpx, tpy), key = -1}
 	for key, math in ipairs(tpchaseList) do
