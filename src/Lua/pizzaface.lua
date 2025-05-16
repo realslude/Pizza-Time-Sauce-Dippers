@@ -542,7 +542,7 @@ addHook("MobjThinker", function(mobj)
 				mobj.flags = MF_SPECIAL|MF_BOSS
 			end
 			
-			speed = $ * 12 + 5*FU
+			speed = $ * 20 + 25*FU
 			local elTime = TICRATE-TICRATE/4 -- time
 			if not (leveltime%elTime) then
 				P_TPChase(mobj, tx, ty, min(speed, dist))
