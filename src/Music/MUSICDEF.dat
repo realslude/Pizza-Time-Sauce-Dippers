@@ -6,11 +6,11 @@ Soundtestcond = 0
 BPM = 126
 
 Lump BFDIOV
-Title = Hitman
+Title = Shiny_Tech
 Authors = Kevin_Macleod
 Soundtestpage = 1
 Soundtestcond = 0
-BPM = 76
+BPM = 138
 
 Lump BFDIHU
 Title = Local_Forecast
