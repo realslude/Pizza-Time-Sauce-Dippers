@@ -86,6 +86,14 @@ addHook("TouchSpecial", function(special, toucher)
 				return true
 			end
 			
+			if PTSR.gamemode == PTSR.gm_lappf then
+				local pf = nil
+				if P_RandomChance(FU/100) then
+					pf = 3 + (leveltime%2) -- 3 and 4
+				end
+				PTSR:SpawnPFAI(pf)
+			end
+			
 			PTSR.StopHitlag(toucher, true)
 			toucher.pizza_in = portal_time
 			PTSR:FillCombo(tplayer)

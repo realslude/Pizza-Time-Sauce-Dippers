@@ -305,6 +305,13 @@ PTSR.gm_bfdi = PTSR.RegisterGamemode("BFDI", {
 	gfx_highres = tofixed("0.65")
 })
 
+PTSR.gm_lappf = PTSR.RegisterGamemode("cheesy lap make name later", {
+	core_endurance = true,
+	parry_friendlyfire = false,
+	dustdevil = false,
+	allowrevive = true,
+})
+
 PTSR.ChangeGamemode = function(gm)
 	local newgamemode = gm or 1
 	local gm_metadata = PTSR.gamemode_list[gm]
