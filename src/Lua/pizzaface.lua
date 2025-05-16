@@ -542,8 +542,8 @@ addHook("MobjThinker", function(mobj)
 				mobj.flags = MF_SPECIAL|MF_BOSS
 			end
 			
-			speed = $ * 20 + 25*FU
-			local elTime = TICRATE-TICRATE/4 -- time
+			speed = $ * 13
+			local elTime = TICRATE/2 -- time
 			if not (leveltime%elTime) then
 				P_TPChase(mobj, tx, ty, min(speed, dist))
 				S_StartSound(mobj, maskdata.sound)
