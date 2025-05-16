@@ -109,10 +109,18 @@ rawset(_G, "P_TPChase", function(mo, tpx, tpy, speed)
 		end
 	end
 	
-	if closestDist.key == -1 then return end
+	if closestDist.key == -1 then
+		mo.elstuck = $ and $+1 or 1
+		if mo.elstuck >= 10 then
+			PTSR:RNGPizzaTP(mo, true)
+			mo.elstuck = 0
+		end
+		return
+	end
 	
 	P_MoveOrigin(mo, closestDist.x, closestDist.y, mo.z)
 	mo.z = (mo.eflags & MFE_VERTICALFLIP) and mo.ceilingz or mo.floorz
+	mo.elstuck = 0
 	return true
 end)
 
