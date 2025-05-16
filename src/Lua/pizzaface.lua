@@ -543,7 +543,10 @@ addHook("MobjThinker", function(mobj)
 			end
 			
 			speed = $ * 13
-			local elTime = TICRATE/2 -- time
+			local elTime = 21 -- time, every 0.6 seconds
+			if PTSR.isOvertime() then
+				elTime = 15 -- at about 0.42 seconds
+			end
 			if not (leveltime%elTime) then
 				P_TPChase(mobj, tx, ty, min(speed, dist))
 				S_StartSound(mobj, maskdata.sound)
